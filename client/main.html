@@ -1,0 +1,28 @@
+<head>
+  <title>HiP Guest Room</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      {{#if alertMessage}}
+        {{> alert}}
+      {{/if}}
+      {{#if currentUser}}
+        <div class="col-md-8">
+          <h1>Guest Room!</h1>
+          {{> calendar}}
+        </div>
+        <div class="col-md-4">
+          <button id="showCreateReservation">Create</button>
+          {{#if showCreate}}
+            {{> createReservation}}
+          {{/if}}
+        </div>
+      {{/if}}
+      {{#unless currentUser}}
+        {{> loginButtons}}
+      {{/unless}}
+    </div>
+  </div>
+</body>
