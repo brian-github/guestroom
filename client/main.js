@@ -1,22 +1,5 @@
 Meteor.subscribe('reservations');
 
-Template.calendar.helpers({
-  options: function () {
-    let events = [];
-    reservations = Reservations.find().fetch();
-    _.each(reservations, function (event) {
-       events.push({
-          title: event.userId,
-          start: event.date,
-          allDay: true
-       });
-    });
-    return {
-      events: events
-    }
-  }
-});
-
 Template.body.rendered = function () {
   Session.setDefault("showCreate", false);
   Session.setDefault("alertMessage", null);
@@ -35,13 +18,8 @@ Template.body.helpers({
   },
   alertMessage: function () {
     return !!Session.get("alertMessage");
+  },
+  isFirstLogin: function () {
+    return !Meteor.user().profile;
   }
 });
-
-Template.calendar.rendered = function () {
-  var fc = this.$('.fc');
-  this.autorun(function () {
-    var res = Reservations.find().fetch();
-    fc.fullCalendar('refetchEvents');
-  });
-}

@@ -9,6 +9,10 @@
         {{> alert}}
       {{/if}}
       {{#if currentUser}}
+        {{#if isFirstLogin}}
+          {{> setup}}
+        {{/if}}
+        {{#unless isFirstLogin}}
         <div class="col-md-8">
           <h1>Guest Room!</h1>
           {{> calendar}}
@@ -19,6 +23,7 @@
             {{> createReservation}}
           {{/if}}
         </div>
+        {{/unless}}
       {{/if}}
       {{#unless currentUser}}
         {{> loginButtons}}

@@ -36,5 +36,12 @@ Meteor.methods({
   confirmReservation: function (userId, date) {
     check(userId, String);
     check(date, String);
+  },
+  setName: function (userId, first, last) {
+    check(userId, String);
+    check(first, String);
+    check(last, String);
+
+    Meteor.users.update({_id: userId}, {$set: {"profile.firstName": first, "profile.lastName": last}});
   }
 });

@@ -7,7 +7,7 @@ Template.calendar.helpers({
       });
       var events = Reservations.find().fetch().map(function (it) {
               return {
-                  title: it.userId,
+                  title: getName(it.userId),
                   start: it.date,
                   allDay: true
               };
@@ -16,3 +16,15 @@ Template.calendar.helpers({
     }
   }
 });
+
+function getName(userId) {
+  return Meteor.user().profile.firstName || userId;
+}
+
+Template.calendar.rendered = function () {
+  var fc = this.$('.fc');
+  this.autorun(function () {
+    var res = Reservations.find().fetch();
+    fc.fullCalendar('refetchEvents');
+  });
+}
