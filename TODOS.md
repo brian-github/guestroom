@@ -1,4 +1,5 @@
-- click on date to see person and guest name
 - limit by 7 per contract period
 - confirm email when signing up first time
 - confirm reservation a week before
+- different color for your reservations versus other people's
+- click on date: if taken, show details. if available show create template for that date
