@@ -43,3 +43,23 @@ Meteor.methods({
     Meteor.users.update({_id: userId}, {$set: {"profile.firstName": first, "profile.lastName": last}});
   }
 });
+
+function sendReminderEmail () {
+    let now = new Date();
+    now.setDate(now.getDate()+7);
+    now.setHours(0,0,0,0);
+    let res = Reservations.findOne({date: now});
+    let user = Meteor.users.findOne({_id: res.userId});
+    if(res && user) {
+      Email.send({
+        to: user.emails[0].address,
+        from: "noreply@hip.coop",
+        subject: "Guest Room Reminder",
+        text: "Reminder that you have the guest room booked on " + res.date +". If you no longer need it, please log in and cancel."
+      });
+    }
+}
+
+Meteor.startup(function() {
+    Meteor.setInterval(sendReminderEmail, 86400000);
+});
