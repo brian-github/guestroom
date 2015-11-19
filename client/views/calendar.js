@@ -9,21 +9,23 @@ Template.calendar.helpers({
               return {
                   title: getName(it.userId),
                   start: it.date,
-                  allDay: true
+                  allDay: true,
+                  id: it._id
               };
           });
       callback(events);
     }
   },
   onEventClicked: function() {
-            return function(calEvent, jsEvent, view) {
-                console.log("Event clicked: "+calEvent.title);
-            }
+    return function(calEvent, jsEvent, view) {
+      var resId = calEvent.id;
+      Session.set("selectedRes", resId);
+    }
   }
 });
 
 function getName(userId) {
-  return Meteor.user().profile.firstName || userId;
+  return Meteor.users.findOne({_id: userId}).profile.firstName || userId;
 }
 
 Template.calendar.rendered = function () {

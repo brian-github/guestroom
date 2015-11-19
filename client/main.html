@@ -5,6 +5,10 @@
 <body>
   <div class="container-fluid">
     <div class="row-fluid">
+      {{> loginButtons}}
+      {{#unless currentUser}}
+        <h1>HiP Guest Room Reservation System</h1>
+      {{/unless}}
       {{#if alertMessage}}
         {{> alert}}
       {{/if}}
@@ -19,7 +23,7 @@
         </div>
         <div class="col-md-4" style="margin-top: 8em;">
           <p>Days remaining: {{remaining}}</p>
-          <button id="showCreateReservation">Create</button>
+          <button class="btn btn-primary" id="showCreateReservation">Create</button>
           {{#if showCreate}}
             {{> createReservation}}
           {{/if}}
@@ -27,9 +31,6 @@
         </div>
         {{/unless}}
       {{/if}}
-      {{#unless currentUser}}
-        {{> loginButtons}}
-      {{/unless}}
     </div>
   </div>
 </body>

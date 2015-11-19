@@ -4,6 +4,16 @@ Template.userReservations.helpers({
   },
   dateFormat: function (date) {
     return date.toDateString();
+  },
+  selectedReservation: function () {
+    var res = Session.get("selectedRes");
+    var record = Reservations.findOne({_id: res});
+    if(res && record) {
+      return record;
+    } else return false;
+  },
+  getName: function (userId) {
+    return Meteor.users.findOne({_id: userId}).profile.firstName || userId;
   }
 });
 
@@ -14,3 +24,7 @@ Template.userReservations.events({
     Meteor.call('cancelReservation', Meteor.userId(), id);
   }
 });
+
+Template.userReservations.rendered = function () {
+  Session.setDefault("selectedRes", null);
+}

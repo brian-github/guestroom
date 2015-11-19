@@ -1,3 +1,5 @@
 <template name="calendar">
-  {{> fullcalendar events=events}}
+  {{> fullcalendar events=events eventClick=onEventClicked}}
+  &nbsp;
+  <p>*Guests must be out by noon day after reservation.</p>
 </template>

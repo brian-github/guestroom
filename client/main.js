@@ -1,4 +1,5 @@
 Meteor.subscribe('reservations');
+Meteor.subscribe('users');
 
 Template.body.rendered = function () {
   Session.setDefault("showCreate", false);

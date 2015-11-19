@@ -1,4 +1,11 @@
 <template name="userReservations">
+  {{#if selectedReservation}}
+    <h4>Selected Reservation</h4>
+    {{#with selectedReservation}}
+      <p>{{dateFormat date}}&mdash;{{getName userId}}&mdash;{{guestName}}</p>
+    {{/with}}
+  {{/if}}
+
   <h4>Your Reservations:</h4>
   <ul>
     {{#each listRes}}
