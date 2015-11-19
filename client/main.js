@@ -21,5 +21,8 @@ Template.body.helpers({
   },
   isFirstLogin: function () {
     return !Meteor.user().profile;
+  },
+  remaining: function () {
+    return 7 - (Reservations.find({userId: Meteor.userId()}).count());
   }
 });

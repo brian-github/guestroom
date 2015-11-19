@@ -17,11 +17,13 @@
           <h1>Guest Room!</h1>
           {{> calendar}}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" style="margin-top: 8em;">
+          <p>Days remaining: {{remaining}}</p>
           <button id="showCreateReservation">Create</button>
           {{#if showCreate}}
             {{> createReservation}}
           {{/if}}
+          {{> userReservations}}
         </div>
         {{/unless}}
       {{/if}}

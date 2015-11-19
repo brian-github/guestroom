@@ -2,8 +2,7 @@ Meteor.methods({
   createReservation: function (userId, date, guestName) {
     check(userId, String);
     // check(date, Date);
-    console.log(date);
-
+    check(guestName, String);
     let count = Reservations.find({userId: userId}).count();
     if(count < 7) {
       return Reservations.insert({
@@ -15,12 +14,12 @@ Meteor.methods({
       throw new Meteor.Error("too-many-dates");
     }
   },
-  cancelReservation: function (userId, date) {
+  cancelReservation: function (userId, resId) {
     check(userId, String);
-    check(date, String);
-
-    if(Meteor.userId() === userId) {
-      return Reservations.remove({userId: userId, date: date});
+    check(resId, String);
+    let res = Reservations.findOne({_id: resId});
+    if(userId === res.userId) {
+      return Reservations.remove({_id: resId});
     } else {
       throw new Meteor.Error("access-denied");
     }
@@ -41,7 +40,6 @@ Meteor.methods({
     check(userId, String);
     check(first, String);
     check(last, String);
-
     Meteor.users.update({_id: userId}, {$set: {"profile.firstName": first, "profile.lastName": last}});
   }
 });

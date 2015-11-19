@@ -1,0 +1,8 @@
+<template name="userReservations">
+  <h4>Your Reservations:</h4>
+  <ul>
+    {{#each listRes}}
+      <li>{{dateFormat date}}&mdash;{{guestName}} <span id={{_id}} class="glyphicon glyphicon-remove cancel"></span></li>
+    {{/each}}
+  </ul>
+</template>

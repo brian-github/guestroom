@@ -1,0 +1,4 @@
+- click on date to see person and guest name
+- limit by 7 per contract period
+- confirm email when signing up first time
+- confirm reservation a week before

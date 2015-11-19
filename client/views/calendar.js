@@ -14,6 +14,11 @@ Template.calendar.helpers({
           });
       callback(events);
     }
+  },
+  onEventClicked: function() {
+            return function(calEvent, jsEvent, view) {
+                console.log("Event clicked: "+calEvent.title);
+            }
   }
 });
 
