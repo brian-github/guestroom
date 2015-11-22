@@ -7,6 +7,13 @@ Template.createReservation.events({
 
     date = date.split("-");
     let dateObj = new Date(date[0], date[1]-1, date[2]);
+    let today = new Date();
+    //don't let user reserve an already past date
+    if(dateObj - today < 0) {
+      Session.set("alertMessage", "Date already past");
+      Session.set("alertType", "danger");
+      return false;
+    }
     if(!date) {
       Session.set("alertMessage", "Need Date");
       Session.set("alertType", "danger");
@@ -16,10 +23,17 @@ Template.createReservation.events({
       Session.set("alertType", "danger");
     }
 
-    if(userId && date && name) {
+    if(userId && dateObj && name) {
       Meteor.call('createReservation', userId, dateObj, name, function (err, res) {
         if(err) {
-          Session.set("alertMessage", "Failed to save");
+          if(err.error === "already-reserved") {
+            Session.set("alertMessage", "Already reserved for that date");
+          } else if(err.error === "too-many-dates") {
+            Session.set("alertMessage", "Already reserved 7 dates");
+          }
+          else {
+            Session.set("alertMessage", "Failed to save");
+          }
           Session.set("alertType", "danger");
         }
         if(res) {
