@@ -14,6 +14,9 @@ Meteor.methods({
     if (dateCheck) {
       throw new Meteor.Error("already-reserved");
     }
+    if(date > contractEnd()) {
+      throw new Meteor.Error("next-period");
+    }
     if(count < 7) {
       return Reservations.insert({
         userId: userId,
@@ -32,6 +35,14 @@ Meteor.methods({
       return Reservations.remove({_id: resId});
     } else {
       throw new Meteor.Error("access-denied");
+    }
+  },
+  adminCancelReservation: function (userId, resId) {
+    check(userId, String);
+    check(resId, String);
+    let user = Meteor.users.findOne({_id: userId});
+    if(user.profile.isAdmin) {
+      return Reservations.remove({_id: resId});
     }
   },
   addToWaitList: function (userId, date) {
@@ -110,9 +121,9 @@ Meteor.startup(function() {
         password: "admin",
         profile: {
           firstName: "House",
-          lastName: "Manager"
-        },
-        isAdmin: true
+          lastName: "Manager",
+          isAdmin: true
+        }
       });
     }
     Meteor.setInterval(sendReminderEmail, 86400000);

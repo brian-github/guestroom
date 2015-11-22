@@ -46,10 +46,6 @@ Template.calendar.helpers({
   }
 });
 
-function pickDate(date) {
-
-}
-
 function getName(userId) {
   if(userId === Meteor.userId()) return "You";
   else return Meteor.users.findOne({

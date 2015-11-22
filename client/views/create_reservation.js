@@ -32,8 +32,9 @@ Template.createReservation.events({
             tmp.$('#date').val('');
           } else if(err.error === "too-many-dates") {
             Session.set("alertMessage", "Already reserved 7 dates");
-          }
-          else {
+          } else if(err.error === "next-period") {
+            Session.set("alertMessage", "Can only reserve for current contact period");
+          } else {
             Session.set("alertMessage", "Failed to save");
           }
           Session.set("alertType", "danger");

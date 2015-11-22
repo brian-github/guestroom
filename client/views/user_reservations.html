@@ -12,4 +12,14 @@
       <li>{{dateFormat date}}&mdash;{{guestName}} <span id={{_id}} class="glyphicon glyphicon-remove cancel"></span></li>
     {{/each}}
   </ul>
+
+  {{#if isAdmin}}
+    &nbsp;
+    <h4>Admin</h4>
+    <ul>
+      {{#each reservation}}
+        <li>{{dateFormat date}}&mdash;{{getName userId}}&mdash;{{guestName}} <span id="adminCancel" class="glyphicon glyphicon-remove"></span></li>
+      {{/each}}
+    </ul>
+  {{/if}}
 </template>
