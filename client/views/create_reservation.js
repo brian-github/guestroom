@@ -9,6 +9,7 @@ Template.createReservation.events({
     let dateObj = new Date(date[0], date[1]-1, date[2]);
     let today = new Date();
     //don't let user reserve an already past date
+    console.log(dateObj-today);
     if(dateObj - today < 0) {
       Session.set("alertMessage", "Date already past");
       Session.set("alertType", "danger");
@@ -28,6 +29,7 @@ Template.createReservation.events({
         if(err) {
           if(err.error === "already-reserved") {
             Session.set("alertMessage", "Already reserved for that date");
+            tmp.$('#date').val('');
           } else if(err.error === "too-many-dates") {
             Session.set("alertMessage", "Already reserved 7 dates");
           }
