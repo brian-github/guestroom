@@ -6,31 +6,45 @@
   <div class="container-fluid">
     <div class="row-fluid">
       {{> loginButtons}}
-      {{#unless currentUser}}
-        <h1>HiP Guest Room Reservation System</h1>
-      {{/unless}}
-      {{#if alertMessage}}
-        {{> alert}}
+      {{#if loading}}
+        <h2>Loading...</h2>
       {{/if}}
-      {{#if currentUser}}
-        {{#if isFirstLogin}}
-          {{> setup}}
-        {{/if}}
-        {{#unless isFirstLogin}}
-        <div class="col-md-8">
-          <h1>Guest Room!</h1>
-          {{> calendar}}
-        </div>
-        <div class="col-md-4" style="margin-top: 8em;">
-          <p>Days remaining: {{remaining}}</p>
-          <button class="btn btn-primary" id="showCreateReservation">Reserve</button>
-          {{#if showCreate}}
-            {{> createReservation}}
-          {{/if}}
-          {{> userReservations}}
-        </div>
+      {{#unless loading}}
+        {{#unless currentUser}}
+          <h1>HiP Guest Room Reservation System</h1>
         {{/unless}}
-      {{/if}}
+        {{#if alertMessage}}
+          {{> alert}}
+        {{/if}}
+        {{#if currentUser}}
+          {{#if isFirstLogin}}
+            {{> setup}}
+          {{/if}}
+          {{#unless isFirstLogin}}
+            <div class="col-md-8">
+              <h1>{{displayType}}!</h1>
+              <div class="btn-group btn-group-lg">
+                <button class="btn btn-default btn-lg type active" id="guestroom">Guest Room</button>
+                <button class="btn btn-default btn-lg type" id="basement">Basement Bunks</button>
+              </div>
+              {{> calendar}}
+            </div>
+            <div class="col-md-4" style="margin-top: 8em;">
+              {{#if type 'guestroom'}}
+                <p>Days remaining: {{remaining}}</p>
+              {{/if}}
+              {{#if type 'basement'}}
+                <p>Count: {{count}}</p>
+              {{/if}}
+              <button class="btn btn-primary" id="showCreateReservation">Reserve</button>
+              {{#if showCreate}}
+                {{> createReservation}}
+              {{/if}}
+              {{> userReservations}}
+            </div>
+          {{/unless}}
+        {{/if}}
+      {{/unless}}
     </div>
   </div>
 </body>

@@ -5,7 +5,8 @@ Template.calendar.helpers({
       Meteor.subscribe('reservations', start.toDate(), end.toDate(), 'America/Los_Angeles', function() {
         fc.fullCalendar('refetchEvents');
       });
-      var events = Reservations.find().fetch().map(function(it) {
+      let type = Session.get("type");
+      var events = Reservations.find({type: type}).fetch().map(function(it) {
         var color = function () {
           if(it.userId === Meteor.userId()) return "#446CB3";
           else return "#67809F";
@@ -55,8 +56,9 @@ function getName(userId) {
 
 Template.calendar.rendered = function() {
   var fc = this.$('.fc');
+  var type = Session.get("type");
   this.autorun(function() {
-    var res = Reservations.find().fetch();
+    var res = Reservations.find({type: type}).fetch();
     fc.fullCalendar('refetchEvents');
   });
 }

@@ -4,6 +4,7 @@ Template.createReservation.events({
     let date = tmp.$('#date').val();
     let name = tmp.$('#guestName').val();
     let userId = Meteor.userId();
+    let type = Session.get("type");
 
     date = date.split("-");
     let dateObj = new Date(date[0], date[1]-1, date[2]);
@@ -25,7 +26,7 @@ Template.createReservation.events({
     }
 
     if(userId && dateObj && name) {
-      Meteor.call('createReservation', userId, dateObj, name, function (err, res) {
+      Meteor.call('createReservation', userId, dateObj, name, type, function (err, res) {
         if(err) {
           if(err.error === "already-reserved") {
             Session.set("alertMessage", "Already reserved for that date");

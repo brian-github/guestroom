@@ -1,31 +1,56 @@
 Meteor.methods({
-  createReservation: function (userId, date, guestName) {
+  createReservation: function (userId, date, guestName, type) {
     check(userId, String);
     check(date, Date);
     check(guestName, String);
-    let count = Reservations.find({
-      userId: userId,
-      date: {
-        $gte: contractStart(),
-        $lte: contractEnd()
-      }
-    }).count();
-    let dateCheck = Reservations.findOne({"date": date});
-    if (dateCheck) {
-      throw new Meteor.Error("already-reserved");
-    }
+    check(type, String);
+
     if(date > contractEnd()) {
       throw new Meteor.Error("next-period");
     }
-    if(count < 7) {
-      return Reservations.insert({
+
+    if(type === "guestroom") {
+      let count = Reservations.find({
         userId: userId,
-        date: date,
-        guestName: guestName
-      });
-    } else {
-      throw new Meteor.Error("too-many-dates");
+        type: "guestroom",
+        date: {
+          $gte: contractStart(),
+          $lte: contractEnd()
+        }
+      }).count();
+      let dateCheck = Reservations.findOne({"date": date, type: "guestroom"});
+      if (dateCheck) {
+        throw new Meteor.Error("already-reserved");
+      }
+      if(count < 7) {
+        return Reservations.insert({
+          userId: userId,
+          date: date,
+          guestName: guestName,
+          type: type
+        });
+      } else {
+        throw new Meteor.Error("too-many-dates");
+      }
     }
+
+    if(type === "basement") {
+        let count = Reservations.find({
+          type: "basement",
+          "date": date
+        }).count();
+        if(count < 2) {
+          return Reservations.insert({
+            userId: userId,
+            date: date,
+            guestName: guestName,
+            type: type
+          });
+        } else {
+          throw new Meteor.Error("already-reserved");
+        }
+    }
+
   },
   cancelReservation: function (userId, resId) {
     check(userId, String);
@@ -45,18 +70,6 @@ Meteor.methods({
       return Reservations.remove({_id: resId});
     }
   },
-  addToWaitList: function (userId, date) {
-    check(userId, String);
-    check(date, String);
-  },
-  removeFromWaitList: function (userId, date) {
-    check(userId, String);
-    check(date, String);
-  },
-  confirmReservation: function (userId, date) {
-    check(userId, String);
-    check(date, String);
-  },
   setName: function (userId, first, last) {
     check(userId, String);
     check(first, String);
@@ -71,7 +84,7 @@ function sendReminderEmail () {
     weekFromNow.setHours(0,0,0,0);
     let res = Reservations.findOne({date: weekFromNow});
     let user = Meteor.users.findOne({_id: res.userId});
-    if(res && user) {
+    if(res && user && user.emails[0]) {
       Email.send({
         to: user.emails[0].address,
         from: "noreply@hip.coop",
@@ -126,5 +139,5 @@ Meteor.startup(function() {
         }
       });
     }
-    Meteor.setInterval(sendReminderEmail, 86400000);
+    Meteor.setInterval(sendReminderEmail, 10799999);
 });
