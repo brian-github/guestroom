@@ -5,6 +5,10 @@ Meteor.methods({
     check(guestName, String);
     check(type, String);
 
+    if(date < new Date()) {
+      throw new Meteor.Error("already-passed");
+    }
+
     if(date > contractEnd()) {
       throw new Meteor.Error("next-period");
     }

@@ -23,10 +23,12 @@
           {{#unless isFirstLogin}}
             <div class="col-md-8">
               <h1>{{displayType}}!</h1>
-              <div class="btn-group btn-group-lg">
-                <button class="btn btn-default btn-lg type active" id="guestroom">Guest Room</button>
-                <button class="btn btn-default btn-lg type" id="basement">Basement Bunks</button>
+              <div class="btn-group">
+                <button class="btn btn-default type active" id="guestroom">Guest Room</button>
+                <button class="btn btn-default type" id="basement">Basement Bunks</button>
               </div>
+              <br>
+              <br>
               {{> calendar}}
             </div>
             <div class="col-md-4" style="margin-top: 8em;">

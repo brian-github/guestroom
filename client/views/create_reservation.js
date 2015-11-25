@@ -35,6 +35,8 @@ Template.createReservation.events({
             Session.set("alertMessage", "Already reserved 7 dates");
           } else if(err.error === "next-period") {
             Session.set("alertMessage", "Can only reserve for current contact period");
+          } else if(err.error === "already-passed") {
+            Session.set("alertMessage", "Date already passed");
           } else {
             Session.set("alertMessage", "Failed to save");
           }
