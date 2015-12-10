@@ -85,7 +85,8 @@ Meteor.methods({
 function sendReminderEmail () {
     let now = new Date();
     let weekFromNow = now.setDate(now.getDate()+7);
-    weekFromNow.setHours(0,0,0,0);
+    let date = new Date(weekFromNow);
+    date.setHours(0,0,0,0);
     let res = Reservations.findOne({date: weekFromNow});
     let user = Meteor.users.findOne({_id: res.userId});
     if(res && user && user.emails[0]) {
