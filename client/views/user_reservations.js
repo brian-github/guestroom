@@ -31,7 +31,7 @@ Template.userReservations.helpers({
 Template.userReservations.events({
   'click .cancel': function (e, tmp) {
     e.preventDefault();
-    let id = e.currentTarget.id;
+    var id = e.currentTarget.id;
     Meteor.call('cancelReservation', Meteor.userId(), id);
   },
   'click #adminCancel': function (e) {

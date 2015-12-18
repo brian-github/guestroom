@@ -14,7 +14,7 @@ Meteor.methods({
     }
 
     if(type === "guestroom") {
-      let count = Reservations.find({
+      var count = Reservations.find({
         userId: userId,
         type: "guestroom",
         date: {
@@ -22,7 +22,7 @@ Meteor.methods({
           $lte: contractEnd()
         }
       }).count();
-      let dateCheck = Reservations.findOne({"date": date, type: "guestroom"});
+      var dateCheck = Reservations.findOne({"date": date, type: "guestroom"});
       if (dateCheck) {
         throw new Meteor.Error("already-reserved");
       }
@@ -39,7 +39,7 @@ Meteor.methods({
     }
 
     if(type === "basement") {
-        let count = Reservations.find({
+        var count = Reservations.find({
           type: "basement",
           "date": date
         }).count();
@@ -59,7 +59,7 @@ Meteor.methods({
   cancelReservation: function (userId, resId) {
     check(userId, String);
     check(resId, String);
-    let res = Reservations.findOne({_id: resId});
+    var res = Reservations.findOne({_id: resId});
     if(userId === res.userId) {
       return Reservations.remove({_id: resId});
     } else {
@@ -69,7 +69,7 @@ Meteor.methods({
   adminCancelReservation: function (userId, resId) {
     check(userId, String);
     check(resId, String);
-    let user = Meteor.users.findOne({_id: userId});
+    var user = Meteor.users.findOne({_id: userId});
     if(user.profile.isAdmin) {
       return Reservations.remove({_id: resId});
     }
@@ -83,12 +83,12 @@ Meteor.methods({
 });
 
 function sendReminderEmail () {
-    let now = new Date();
-    let weekFromNow = now.setDate(now.getDate()+7);
-    let date = new Date(weekFromNow);
+    var now = new Date();
+     weekFromNow = now.setDate(now.getDate()+7);
+    var date = new Date(weekFromNow);
     date.setHours(0,0,0,0);
-    let res = Reservations.findOne({date: weekFromNow});
-    let user = Meteor.users.findOne({_id: res.userId});
+    var res = Reservations.findOne({date: weekFromNow});
+    var user = Meteor.users.findOne({_id: res.userId});
     if(res && user && user.emails[0]) {
       Email.send({
         to: user.emails[0].address,
@@ -104,8 +104,8 @@ var summer = [5,6,7];
 var fall = [8, 9, 10, 11];
 
 function contractStart () {
-  let date = new Date();
-  let month = date.getMonth() + 1;
+  var date = new Date();
+  var month = date.getMonth() + 1;
   if(_.indexOf(spring, month) !== -1) {
     return new Date(date.getFullYear(), 0,0);
   }
@@ -118,8 +118,8 @@ function contractStart () {
 }
 
 function contractEnd () {
-  let date = new Date();
-  let month = date.getMonth() + 1;
+  var date = new Date();
+  var month = date.getMonth() + 1;
   if(_.indexOf(spring, month) !== -1) {
     return new Date(date.getFullYear(), 5,0);
   }

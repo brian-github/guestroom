@@ -6,17 +6,18 @@
   <div class="container-fluid">
     <div class="row-fluid">
       {{> loginButtons}}
-      {{#if loading}}
-        <h2>Loading...</h2>
-      {{/if}}
-      {{#unless loading}}
-        {{#unless currentUser}}
-          <h1>HiP Guest Room Reservation System</h1>
-        {{/unless}}
-        {{#if alertMessage}}
-          {{> alert}}
+      {{#unless currentUser}}
+        <h1>HiP Guest Room Reservation System</h1>
+      {{/unless}}
+
+      {{#if currentUser}}
+        {{#if loading}}
+          <h2>Loading...</h2>
         {{/if}}
-        {{#if currentUser}}
+        {{#unless loading}}
+          {{#if alertMessage}}
+            {{> alert}}
+          {{/if}}
           {{#if isFirstLogin}}
             {{> setup}}
           {{/if}}
@@ -45,8 +46,8 @@
               {{> userReservations}}
             </div>
           {{/unless}}
-        {{/if}}
-      {{/unless}}
+        {{/unless}}
+      {{/if}}
     </div>
   </div>
 </body>

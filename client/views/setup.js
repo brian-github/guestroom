@@ -1,9 +1,9 @@
 Template.setup.events({
   'click #saveProfile': function (e, tmp) {
     e.preventDefault();
-    let first = tmp.$('#firstName').val();
-    let last = tmp.$('#lastName').val();
-    let userId = Meteor.userId();
+    var first = tmp.$('#firstName').val();
+    var last = tmp.$('#lastName').val();
+    var userId = Meteor.userId();
 
     if(!first || !last) {
       Session.set("alertMessage", "Need Name");

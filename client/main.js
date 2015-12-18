@@ -54,6 +54,6 @@ Template.body.helpers({
 });
 
 Template.registerHelper('type', function (test) {
-  let type = Session.get("type");
+  var type = Session.get("type");
   return type === test;
 });

@@ -1,15 +1,15 @@
 Template.createReservation.events({
   'click #create': function (e, tmp) {
     e.preventDefault();
-    let date = tmp.$('#date').val();
-    let name = tmp.$('#guestName').val();
-    let userId = Meteor.userId();
-    let type = Session.get("type");
+    var date = tmp.$('#date').val();
+    var name = tmp.$('#guestName').val();
+    var userId = Meteor.userId();
+    var type = Session.get("type");
 
     date = date.split("-");
-    let dateObj = new Date(date[0], date[1]-1, date[2]);
-    let today = new Date();
-    //don't let user reserve an already past date
+    var dateObj = new Date(date[0], date[1]-1, date[2]);
+    var today = new Date();
+    //don't var user reserve an already past date
     console.log(dateObj-today);
     if(dateObj - today < 0) {
       Session.set("alertMessage", "Date already past");
