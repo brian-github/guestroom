@@ -8,9 +8,9 @@ Template.createReservation.events({
 
     date = date.split("-");
     var dateObj = new Date(date[0], date[1]-1, date[2]);
-    var today = new Date();
+    dateObj.setHours(0,0,0,0);
+    var today = new Date(new Date().setDate(new Date().getDate()-1));
     //don't var user reserve an already past date
-    console.log(dateObj-today);
     if(dateObj - today < 0) {
       Session.set("alertMessage", "Date already past");
       Session.set("alertType", "danger");

@@ -5,7 +5,8 @@ Meteor.methods({
     check(guestName, String);
     check(type, String);
 
-    if(date < new Date()) {
+    //
+    if(date < new Date(new Date().setDate(new Date().getDate()-1))) {
       throw new Meteor.Error("already-passed");
     }
 
@@ -61,7 +62,11 @@ Meteor.methods({
     check(resId, String);
     var res = Reservations.findOne({_id: resId});
     if(userId === res.userId) {
-      return Reservations.remove({_id: resId});
+      if(res.date < new Date()) {
+        throw new Meteor.Error("already-passed");
+      } else {
+        return Reservations.remove({_id: resId});
+      }
     } else {
       throw new Meteor.Error("access-denied");
     }

@@ -32,7 +32,11 @@ Template.userReservations.events({
   'click .cancel': function (e, tmp) {
     e.preventDefault();
     var id = e.currentTarget.id;
-    Meteor.call('cancelReservation', Meteor.userId(), id);
+    Meteor.call('cancelReservation', Meteor.userId(), id, function (err, res) {
+      if(err) {
+        Session.set("alertMessage", "Date already passed");
+      }
+    });
   },
   'click #adminCancel': function (e) {
     e.preventDefault();
