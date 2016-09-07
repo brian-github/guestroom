@@ -27,7 +27,8 @@ Meteor.methods({
       if (dateCheck) {
         throw new Meteor.Error("already-reserved");
       }
-      if(count < 7) {
+      //limit 3 per semester
+      if(count < DAY_LIMIT) {
         return Reservations.insert({
           userId: userId,
           date: date,

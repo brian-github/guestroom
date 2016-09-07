@@ -40,9 +40,13 @@ Template.body.helpers({
     return !Meteor.user().profile;
   },
   remaining: function() {
-    return 7 - (Reservations.find({
+    return DAY_LIMIT - (Reservations.find({
       userId: Meteor.userId(),
-      type: "guestroom"
+      type: "guestroom",
+      date: {
+        $gte: contractStart(),
+        $lte: contractEnd()
+      }
     }).count());
   },
   count: function () {

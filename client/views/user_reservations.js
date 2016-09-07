@@ -35,6 +35,7 @@ Template.userReservations.events({
     Meteor.call('cancelReservation', Meteor.userId(), id, function (err, res) {
       if(err) {
         Session.set("alertMessage", "Date already passed");
+        Session.set("alertType", "danger");
       }
     });
   },
